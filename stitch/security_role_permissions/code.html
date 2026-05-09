@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IntelliCampus ERP - Security &amp; Role Permissions</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0d59f2",
+                        "primary-content": "#ffffff",
+                        "background-light": "#f5f6f8",
+                        "background-dark": "#101622",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2230",
+                        "text-primary": "#111827",
+                        "text-secondary": "#6b7280",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom checkbox style to match primary color */
+        input[type="checkbox"]:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans text-text-primary antialiased min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation -->
+<header class="bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-800 h-16 flex items-center justify-between px-6 sticky top-0 z-30">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-text-primary dark:text-white">IntelliCampus ERP</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-text-secondary hover:text-primary dark:text-gray-400 dark:hover:text-primary text-sm font-medium transition-colors" href="#">Dashboard</a>
+<a class="text-text-secondary hover:text-primary dark:text-gray-400 dark:hover:text-primary text-sm font-medium transition-colors" href="#">Academics</a>
+<a class="text-text-secondary hover:text-primary dark:text-gray-400 dark:hover:text-primary text-sm font-medium transition-colors" href="#">HR</a>
+<a class="text-text-secondary hover:text-primary dark:text-gray-400 dark:hover:text-primary text-sm font-medium transition-colors" href="#">Finance</a>
+<a class="text-primary font-medium text-sm" href="#">Security</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="w-64 py-2 pl-10 pr-4 text-sm text-gray-700 bg-gray-50 border border-transparent rounded-lg focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary placeholder-gray-400 dark:bg-gray-800 dark:text-gray-200 dark:focus:bg-gray-900" placeholder="Search modules..." type="text"/>
+</div>
+<button class="relative p-2 text-gray-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded-full bg-cover bg-center border border-gray-200" data-alt="User profile picture of a man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB49DGWGEeiopqo1brmU21x6tf-ulkUHd43gSWhx8_74910kQ32GBZtaj9pX7POJ6WYvfItOFdo8Qmzmlg_H6ceCUud8kdOVeyWitP4vzlKIHv22HtS7x1xrtkxYib2rwjUHMek4U5IqYDakz9EBBaX_oljCfMMnb5avruojjbkEQmnmf4mgfZQXSDqsTGVl665pdTP5BkqlWmiD_9o1AvHfzghKnq3qUOAVIYrbq59d4BtiC0gb5lJD1rPPAkN8tCUtYb9uk6PwGVj');"></div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-surface-light dark:bg-surface-dark border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col overflow-y-auto hidden lg:flex">
+<div class="p-6 border-b border-gray-100 dark:border-gray-800">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC2bS7W_6O5mmzMDECnmUq9-V7IM5jvMk9wptih3-cbOXtPhbPM778Y26kWq6utPopz1BfwTkiYLUCR-F_TpOD9KijZLRRqufQmCFCDTeJBky67Qhmx7h-7f4Gl36O97tGanfvZH4etUoI0SlFTlQfO3G1Suqg9WzLukykLgtJUrp-LaUwAhForBmT8J8LGUN7-44hjdmvUjR76ipGDOXD4m2bQY5N2z7cytJTZaoOepS5FVMs25-iS_bBDqwqQ8p2a4jrVPtEv3Rfh');"></div>
+<div>
+<h3 class="text-sm font-semibold text-text-primary dark:text-white">System Admin</h3>
+<p class="text-xs text-text-secondary dark:text-gray-500">IT Department</p>
+</div>
+</div>
+</div>
+<div class="flex-1 py-4 px-3 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-text-secondary rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-gray-400 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                    Overview
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-text-secondary rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-gray-400 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+                    User Management
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-primary bg-primary/10 rounded-lg dark:bg-primary/20 dark:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] fill-1">verified_user</span>
+                    Roles &amp; Permissions
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-text-secondary rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-gray-400 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+                    Access Logs
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-text-secondary rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-gray-400 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">policy</span>
+                    Compliance
+                </a>
+<div class="pt-4 pb-2">
+<div class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">Settings</div>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-text-secondary rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-gray-400 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                    General Settings
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-sm font-medium text-text-secondary rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 dark:text-gray-400 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">integration_instructions</span>
+                    API Keys
+                </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full bg-background-light dark:bg-background-dark overflow-hidden relative">
+<!-- Page Header -->
+<div class="bg-surface-light dark:bg-surface-dark border-b border-gray-200 dark:border-gray-800 px-8 py-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-2xl font-bold text-text-primary dark:text-white tracking-tight">Security &amp; Role Permissions</h1>
+<p class="mt-1 text-sm text-text-secondary dark:text-gray-400">Manage fine-grained access levels and feature permissions for different user roles.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-lg text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[20px] mr-2">download</span>
+                            Export
+                        </button>
+<button class="inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-primary hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+<span class="material-symbols-outlined text-[20px] mr-2">add</span>
+                            Add New Role
+                        </button>
+</div>
+</div>
+<!-- Filters Bar -->
+<div class="mt-6 flex flex-wrap items-center gap-3">
+<div class="relative group">
+<button class="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg text-sm font-medium text-text-primary dark:text-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">apps</span>
+                            All Modules
+                            <span class="material-symbols-outlined text-[18px] text-gray-500">expand_more</span>
+</button>
+</div>
+<div class="h-6 w-px bg-gray-300 dark:bg-gray-700 mx-1"></div>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-text-secondary dark:text-gray-300 hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">school</span>
+                        Academics
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-text-secondary dark:text-gray-300 hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">badge</span>
+                        HR &amp; Payroll
+                    </button>
+<button class="flex items-center gap-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-text-secondary dark:text-gray-300 hover:text-primary hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">payments</span>
+                        Finance
+                    </button>
+<div class="flex-1"></div>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-2 text-gray-400">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</span>
+<input class="py-1.5 pl-8 pr-3 text-sm text-gray-700 bg-white border border-gray-300 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary dark:bg-gray-800 dark:border-gray-600 dark:text-gray-200 placeholder-gray-400" placeholder="Filter permissions..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Permission Table Container -->
+<div class="flex-1 overflow-auto p-6">
+<div class="bg-surface-light dark:bg-surface-dark border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead class="bg-gray-50 dark:bg-gray-800/50 sticky top-0 z-10 backdrop-blur-sm">
+<tr>
+<th class="py-4 px-6 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 w-1/3 min-w-[300px]">Permission / Role</th>
+<th class="py-4 px-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[100px]">
+<div class="flex flex-col items-center gap-1">
+<span>Admin</span>
+<span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 text-[10px]">Super</span>
+</div>
+</th>
+<th class="py-4 px-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[100px]">
+<div class="flex flex-col items-center gap-1">
+<span>HOD</span>
+<span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-[10px]">Staff</span>
+</div>
+</th>
+<th class="py-4 px-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[100px]">
+<div class="flex flex-col items-center gap-1">
+<span>Teacher</span>
+<span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 text-[10px]">Staff</span>
+</div>
+</th>
+<th class="py-4 px-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[100px]">
+<div class="flex flex-col items-center gap-1">
+<span>Student</span>
+<span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 text-[10px]">User</span>
+</div>
+</th>
+<th class="py-4 px-4 text-center text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 min-w-[100px]">
+<div class="flex flex-col items-center gap-1">
+<span>Staff</span>
+<span class="px-2 py-0.5 rounded-full bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 text-[10px]">Guest</span>
+</div>
+</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+<!-- Section: Academics -->
+<tr class="bg-gray-50/50 dark:bg-gray-800/30">
+<td class="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide flex items-center gap-2" colspan="6">
+<span class="material-symbols-outlined text-[16px]">school</span>
+                                    Academic Records
+                                </td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary dark:text-white">View Student Records</span>
+<span class="text-xs text-text-secondary dark:text-gray-500 mt-0.5">Allow viewing basic profile and academic history.</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary dark:text-white">Edit Student Records</span>
+<span class="text-xs text-text-secondary dark:text-gray-500 mt-0.5">Modify personal details and enrollment status.</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary dark:text-white">Post Grades</span>
+<span class="text-xs text-text-secondary dark:text-gray-500 mt-0.5">Input and publish exam results and continuous assessment scores.</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<!-- Section: Finance -->
+<tr class="bg-gray-50/50 dark:bg-gray-800/30">
+<td class="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide flex items-center gap-2" colspan="6">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+                                    Finance &amp; Billing
+                                </td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary dark:text-white">View Financial Reports</span>
+<span class="text-xs text-text-secondary dark:text-gray-500 mt-0.5">Access to revenue, expense, and balance sheet reports.</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary dark:text-white">Manage Invoices</span>
+<span class="text-xs text-text-secondary dark:text-gray-500 mt-0.5">Create, edit, and void student fee invoices.</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<!-- Section: System -->
+<tr class="bg-gray-50/50 dark:bg-gray-800/30">
+<td class="px-6 py-3 text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide flex items-center gap-2" colspan="6">
+<span class="material-symbols-outlined text-[16px]">settings</span>
+                                    System Administration
+                                </td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary dark:text-white">Manage System Settings</span>
+<span class="text-xs text-text-secondary dark:text-gray-500 mt-0.5">Configure global application settings and integrations.</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-primary dark:text-white">View Audit Logs</span>
+<span class="text-xs text-text-secondary dark:text-gray-500 mt-0.5">See activity history and security events.</span>
+</div>
+</td>
+<td class="px-4 py-4 text-center">
+<input checked="" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer disabled:opacity-50" disabled="" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+<td class="px-4 py-4 text-center">
+<input class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 cursor-pointer" type="checkbox"/>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="bg-surface-light dark:bg-surface-dark border-t border-gray-200 dark:border-gray-800 px-8 py-4 sticky bottom-0 z-20">
+<div class="flex items-center justify-between">
+<div class="text-sm text-text-secondary dark:text-gray-500">
+                        Showing <span class="font-medium text-text-primary dark:text-white">8</span> of <span class="font-medium text-text-primary dark:text-white">142</span> permissions
+                    </div>
+<div class="flex gap-3">
+<button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
+                            Reset Changes
+                        </button>
+<button class="px-6 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary shadow-sm shadow-primary/30">
+                            Save Changes
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
