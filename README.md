@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://socialify.git.ci/your-username/IntelliCampus-ERP/image?description=1&font=Inter&language=1&name=1&owner=1&pattern=Circuit%20Board&theme=Dark" alt="IntelliCampus ERP Banner" width="800" />
+  <img src="https://socialify.git.ci/mohitramawat/Ai-IntelliCampus-ERP/image?description=1&font=Inter&language=1&name=1&owner=1&pattern=Circuit%20Board&theme=Dark" alt="IntelliCampus ERP Banner" width="800" />
 
   <h1>🚀 IntelliCampus ERP</h1>
   <p><strong>AI-Enabled Smart College ERP System with Biometric Facial Recognition & Predictive Analytics</strong></p>
@@ -88,7 +88,7 @@ Clone the repository and run it locally:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/IntelliCampus-ERP.git
+git clone https://github.com/mohitramawat/Ai-IntelliCampus-ERP.git
 cd IntelliCampus-ERP
 
 # 2. Install PHP and Node dependencies
